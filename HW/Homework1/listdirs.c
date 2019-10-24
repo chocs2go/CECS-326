@@ -5,3 +5,4 @@ foreach name (lib bin src)
         ls -l
         cd ..
 end
+
