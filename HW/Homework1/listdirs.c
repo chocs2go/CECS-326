@@ -1,8 +1,0 @@
-#! /bin/csh
-cd /usr
-foreach name (lib bin src)
-        cd $name
-        ls -l
-        cd ..
-end
-
