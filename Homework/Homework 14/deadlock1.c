@@ -14,6 +14,7 @@ void main () {
   struct sembuf Wait1= {1, -1, SEM_UNDO};
   struct sembuf Signal1= {1,  1, SEM_UNDO};
   struct sembuf OpList[2];
+
   int pid; /* for knowing who the parent is */
   key_t mykey;
   int semid;
