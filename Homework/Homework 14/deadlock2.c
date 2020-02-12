@@ -23,6 +23,25 @@ int main () {
   key_t mykey;
   int semid;
   int waitstatus;
+  
+   mykey = ftok("deadlock2.out",'a');
+  /* request 5 semaphores for my programs only */
+  if (mykey == -1) {
+    printf("File for key did not exist\n");
+    return 1;
+  }
+  semid = semget(mykey, 5, IPC_CREAT | 0600 );
+  for (i = 0; i < 5 ; i++ ) {
+    /* initialize the wait, signal and count for each semaphore */
+    Waits[i].sem_op = -1;
+    Signals[i].sem_op = 1;
+    Waits[i].sem_num = i;
+    Signals[i].sem_num = i;
+    Waits[i].sem_flg = SEM_UNDO;
+    Signals[i].sem_flg = SEM_UNDO;
+    semctl(semid,  i, SETVAL,  1);
+  }
+  
 }
 
 return 0;
