@@ -41,7 +41,28 @@ int main () {
     Signals[i].sem_flg = SEM_UNDO;
     semctl(semid,  i, SETVAL,  1);
   }
-  
+ /* fork 5 philosophers, 5 children for i = 0, 1, 2, 3, 4 */
+  /* The parent is not a philosopher, it just does the wait */
+  for (i = 0; i < 5 ; i++ ) {
+    pid = fork();
+    /* rest of loop is child, parent continues
+       arround the loop to do fork child */
+    if ( 0 == pid ) {
+      /* each child is a philosopher */
+      printf("Philosopher %d starting\n", i);
+      for ( eat_round = 0; eat_round < 4; eat_round++ ) {
+        printf("Philosopher %d grabbing left fork\n", i);
+        if ( i == 4 ) {
+          OpList[0] = Waits[(i+1) % 5];
+          OpList[1] = Waits[i];
+        }
+        else {
+          OpList[0] = Waits[i];
+          OpList[1] = Waits[(i+1) % 5];
+        }
+        semop(semid, OpList, 2);
+        printf("Philosopher %d grabbing right fork\n", i);
+        sleep(1);  
 }
 
 return 0;
