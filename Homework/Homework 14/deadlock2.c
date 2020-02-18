@@ -63,6 +63,28 @@ int main () {
         semop(semid, OpList, 2);
         printf("Philosopher %d grabbing right fork\n", i);
         sleep(1);  
+ printf("Philosopher %d eat, round %d\n", i, eat_round);
+        sleep(1);
+        printf("Philosopher %d surrendering forks\n", i);
+        if ( i == 4 ) {
+          OpList[0] = Signals[(i+1) % 5];
+          OpList[1] = Signals[i];
+        }
+        else {
+          OpList[0] = Signals[i];
+          OpList[1] = Signals[(i+1) % 5];
+        }
+        semop(semid, OpList, 2);
+        }
+      printf("Philosopher %d exiting\n", i);
+      return 0;
+    }
+  }
+  /* Only the parent gets here, it waits for all the children to finish */
+  for (i = 0; i < 5 ; i++ ) {
+    wait3(&waitstatus,0,NULL);
+  }
+  /* All the children have exited, the parent now removes the semaphore */
+  semctl(semid, 0, IPC_RMID, 0);
+  return 0;
 }
-
-return 0;
