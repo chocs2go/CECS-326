@@ -51,7 +51,27 @@ int main() {
     OpList[1] = Signal[1]; //unblock readers
     semop(semid, OpList, 2);
     
-  }
+ //printf("%d Reading\n", c);
+    mem = shmat(shmid, 0, 0);
+    b1 = mem[0];
+    sleep(1);
+    b2 = mem[1];
+    sleep(1);
+    b3 = mem[2];
+    printf(" %d %d %d\n", b1, b2, b3);
+    shmdt(mem);
+    sleep(2);
+    //printf("Done reading\n");
 
-return 0;
-}
+    semop(semid, &Wait[3], 1); //decrement counter
+    if((c = semctl(semid, 3, GETVAL, 0)) == 0) {
+      //printf("UNLOCKING WRITERS\n");
+      semop(semid, &Signal[2], 1); //unblock writers
+    }
+    sleep(4);
+  }
+  semctl(semid, 0, IPC_RMID, 0);
+  shmctl(shmid, IPC_RMID, 0);
+  return 0;
+};
+
