@@ -24,5 +24,28 @@ int main() {
     semctl(semid, 1, SETVAL, 3); //semaphore 2 - reader
     semctl(semid, 2, SETVAL, 3); //semaphore 3 - writer
     semctl(semid, 3, SETVAL, 0); //semaphore 4 - counter
-  } else {
+  } 
+  else {
     semid = semget(mykey, 4, 0660);
+     }
+  printf("SemID- %d\n", semid);
+  if ((shmid = shmget(mykey, 3, IPC_CREAT | IPC_EXCL | 0660)) != -1) {
+    mem = shmat(shmid, 0, 0);
+    mem[0] = 0;
+    mem[1] = 0;
+    mem[2] = 0;
+    shmdt(mem);
+  } 
+  else {
+    shmid = shmget(mykey, 3, 0660);
+  }
+  printf("ShmID- %d\n", shmid);
+
+  for (i = 0; i < 5; i++) {
+    OpList[0] = Wait[0]; //blocking readers
+    OpList[1] = Wait[1]; //blocking readers
+    OpList[2] = Wait[2]; //blockling writers
+    semop(semid, OpList, 3);
+    c = semctl(semid, 2, GETVAL, 0);
+
+    printf("Writing \n");
