@@ -49,3 +49,23 @@ int main() {
     c = semctl(semid, 2, GETVAL, 0);
 
     printf("Writing \n");
+    mem = shmat(shmid, 0, 0);
+    mem[0] = mem[0] + 1;
+    sleep(1);
+    mem[1] = mem[1] + 1;
+    sleep(1);
+    mem[2] = mem[2] + 1;
+    sleep(3);
+    printf("Done writing\n");
+
+    OpList[0] = Signal[0]; //unblocking readers
+    OpList[1] = Signal[1]; //unblocking readers
+    OpList[2] = Signal[2]; //unblocking writers
+    semop(semid, OpList, 3);
+    sleep(8);
+  }
+  semctl(semid, 0, IPC_RMID, 0);
+  shmctl(shmid, IPC_RMID, 0);
+  return 0;
+};
+
