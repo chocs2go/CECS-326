@@ -5,7 +5,7 @@
 #include <sys/ipc.h> /* semaphore */
 #include <sys/sem.h> /* semaphore */
 #include <sys/shm.h> /* shared memory */
-/* writer.c */
+/* writers.c */
 
 //counter operations not needed in writer
 static struct sembuf Wait[3] = { {0, -3, SEM_UNDO}, {1, -3, SEM_UNDO}, {2, -3, SEM_UNDO} };
@@ -67,5 +67,5 @@ int main() {
   semctl(semid, 0, IPC_RMID, 0);
   shmctl(shmid, IPC_RMID, 0);
   return 0;
-};
+}
 
