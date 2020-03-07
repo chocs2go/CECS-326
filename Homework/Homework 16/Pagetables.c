@@ -18,5 +18,24 @@ int main ()
   pthread_t th;
   pthread_attr_t ta;
 
+  if (pthread_attr_init(&ta)<0)
+  {
+    return -1;
+  }
+  if (pthread_attr_setdetachstate(&ta,PTHREAD_CREATE_DETACHED)<0)
+  {
+    return -1;
+  }
+
+  /*
+    Create 3 child threads, give each of them access to a
+    different set of pages. The first child will be using
+    pages 0,3,6; the second child will be using pages 1,3,7;
+    and the third child will be using pages 2,4,8.
+  */
+  pthread_create(&th,&ta,userprogram,a1);
+  pthread_create(&th,&ta,userprogram,a2);
+  pthread_create(&th,&ta,userprogram,a3);
+
 return 0;
 }
