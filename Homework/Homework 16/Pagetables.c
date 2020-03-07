@@ -37,5 +37,20 @@ int main ()
   pthread_create(&th,&ta,userprogram,a2);
   pthread_create(&th,&ta,userprogram,a3);
 
+ /* Cheap wait until the child threads are done. */
+  sleep(10);
+}
+
+/*
+ The child prints a Fibbinocci series, you should see the
+ numbers 2,3,5,8,13. This works with one child. But with three
+ children it won't work until you add the page table stuff.
+ Then you should see three copies of the series, all 3 children
+ should print ther 2's, then all three should print their 3's
+ and so forth.
+ The sleep is inserted to help make sure that you don't have two
+ children accidentally using the same memory, do not remove it.
+*/
+
 return 0;
 }
