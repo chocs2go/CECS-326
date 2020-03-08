@@ -52,5 +52,23 @@ int main ()
  children accidentally using the same memory, do not remove it.
 */
 
+
+void* userprogram(void* pages)
+{
+  /*
+    We really passed an array of integers so we convert from a
+    void * to an int*. Now pagetable[0], pagetable[1], and
+    pagetable[3] will be the array we were passed.
+  */
+
+  int* pagetable = pages;
+  int i;
+  /*
+    This printf is a test.
+    You should see, 0,3,6 or 1,4,7 or 2,5,8. This test makes
+    sure that the page table is being recieved by the child correctly.
+  */
+  printf("pagetable is %d %d %d\n",pagetable[0],pagetable[1],pagetable[2]);
+
 return 0;
 }
