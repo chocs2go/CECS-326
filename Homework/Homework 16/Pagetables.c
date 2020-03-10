@@ -70,5 +70,16 @@ void* userprogram(void* pages)
   */
   printf("pagetable is %d %d %d\n",pagetable[0],pagetable[1],pagetable[2]);
 
-return 0;
-}
+  memory[pagetable[1]] = 1;
+  memory[pagetable[2]] = 1;
+
+  for (i = 0 ; i < 5 ; i++)
+  {
+    memory[pagetable[0]] = memory[pagetable[1]] + memory[pagetable[2]];
+    memory[pagetable[1]] = memory[pagetable[2]];
+    memory[pagetable[2]] = memory[pagetable[0]];
+    sleep(1);
+    printf("%d\n", memory[pagetable[0]]);
+  };
+};
+
