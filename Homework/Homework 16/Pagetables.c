@@ -57,6 +57,7 @@ int main ()
 
 void* userprogram(void* pages)
 {
+
   /*
     We really passed an array of integers so we convert from a
     void * to an int*. Now pagetable[0], pagetable[1], and
@@ -82,6 +83,6 @@ void* userprogram(void* pages)
     memory[pagetable[2]] = memory[pagetable[0]];
     sleep(1);
     printf("%d\n", memory[pagetable[0]]);
-  };
-};
+  }
+}
 
