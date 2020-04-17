@@ -30,3 +30,23 @@ void workingset(int n, int w, int pages[])
         v.push_back(pages[i]);
         //Page is in window - do nothing
         }
+    }
+//page not in window - Push back to vector
+        int size = v.size();
+        printf("%d\t %d\t ",time,size);
+        for (int i = 0; i < size; i++){
+                printf("%d ", v.at(i));
+        }
+        printf("\n");
+    }
+  printf("\n");
+};
+int main()
+{
+  int list1[] = {1,2,3,3,2,3,2,1,2,1,2,1,3,1,3,1,2,3,1};
+  int list2[] = {1,2,3,3,4,4,5,3,3,2,1,2,1,2,3,4,5,3,2,4,2,4,2,2};
+  /* notice the tricky way of getting the number of integers in the array */
+  workingset(sizeof(list1)/sizeof(int),3,list1);
+  workingset(sizeof(list2)/sizeof(int),4,list2);
+  return 0;
+};
